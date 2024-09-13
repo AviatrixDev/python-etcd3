@@ -13,7 +13,7 @@ from etcd3.members import Member
 
 __author__ = 'Louis Taylor'
 __email__ = 'louis@kragniz.eu'
-__version__ = '0.12.1+avx'
+__version__ = '0.12.2+avx'
 
 __all__ = (
     'etcdrpc',
