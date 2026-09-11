@@ -1388,8 +1388,17 @@ class Etcd3Client(MultiEndpointEtcd3Client):
             credentials = None
 
         # Step 2: create Endpoint
-        ep = Endpoint(host, port, secure=self.uses_secure_channel,
-                      creds=credentials, opts=grpc_options)
+        ep = Endpoint(
+            host,
+            port,
+            secure=self.uses_secure_channel,
+            creds=credentials,
+            opts=grpc_options,
+            # Disable time_retry for a single-node client. Otherwise, all
+            # requests are blocked for the configured `time_retry` value if
+            # certain errors are encountered
+            time_retry=0
+        )
 
         super(Etcd3Client, self).__init__(endpoints=[ep], timeout=timeout,
                                           user=user, password=password)
