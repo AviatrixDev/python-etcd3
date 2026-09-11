@@ -30,6 +30,8 @@ _FAILED_EP_CODES = [
     grpc.StatusCode.INTERNAL
 ]
 
+TIME_RETRY_DEFAULT = 300.0
+
 
 class Transactions(object):
     def __init__(self):
@@ -85,7 +87,7 @@ class Endpoint(object):
     :type opts: dict, optional
     """
 
-    def __init__(self, host, port, secure=True, creds=None, time_retry=300.0,
+    def __init__(self, host, port, secure=True, creds=None, time_retry=None,
                  opts=None):
         self.host = host
         self.netloc = "{host}:{port}".format(host=host, port=port)
@@ -95,6 +97,8 @@ class Endpoint(object):
             raise ValueError(
                 'Please set TLS credentials for secure connections')
         self.credentials = creds
+        if time_retry is None:
+            time_retry = TIME_RETRY_DEFAULT
         self.time_retry = time_retry
         self.in_use = False
         self.last_failed = 0
